@@ -1,3 +1,4 @@
+
 package model;
 
 public class Kursus {
@@ -9,11 +10,12 @@ public class Kursus {
     public Kursus() {
     }
 
-    public Kursus(String kode, String nama, String level, double biaya) {
-        this.kode = kode;
-        this.nama = nama;
-        this.level = level;
-        this.biaya = biaya;
+    public Kursus(String kode, String nama,
+                  String level, double biaya) {
+        setKode(kode);
+        setNama(nama);
+        setLevel(level);
+        setBiaya(biaya);
     }
 
     public String getKode() {
@@ -21,7 +23,11 @@ public class Kursus {
     }
 
     public void setKode(String kode) {
-        this.kode = kode;
+        if (kode == null || kode.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Kode kursus wajib diisi");
+        }
+        this.kode = kode.trim();
     }
 
     public String getNama() {
@@ -29,7 +35,11 @@ public class Kursus {
     }
 
     public void setNama(String nama) {
-        this.nama = nama;
+        if (nama == null || nama.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Nama kursus wajib diisi");
+        }
+        this.nama = nama.trim();
     }
 
     public String getLevel() {
@@ -37,7 +47,11 @@ public class Kursus {
     }
 
     public void setLevel(String level) {
-        this.level = level;
+        if (level == null || level.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Level kursus wajib diisi");
+        }
+        this.level = level.trim();
     }
 
     public double getBiaya() {
@@ -45,10 +59,20 @@ public class Kursus {
     }
 
     public void setBiaya(double biaya) {
+        if (!Double.isFinite(biaya) || biaya < 0) {
+            throw new IllegalArgumentException(
+                    "Biaya tidak boleh negatif atau tidak valid");
+        }
         this.biaya = biaya;
     }
 
     public double hitungBiayaSetelahDiskon(double persenDiskon) {
+        if (!Double.isFinite(persenDiskon)
+                || persenDiskon < 0 || persenDiskon > 100) {
+            throw new IllegalArgumentException(
+                    "Diskon harus antara 0 sampai 100 persen");
+        }
+
         return biaya - (biaya * persenDiskon / 100.0);
     }
 }

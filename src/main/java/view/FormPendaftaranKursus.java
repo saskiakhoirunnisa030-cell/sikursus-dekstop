@@ -259,13 +259,26 @@ public class FormPendaftaranKursus extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProsesActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
- txtNama.setText("");
+                                         
+    int jawab = JOptionPane.showConfirmDialog(
+        this,
+        "Kosongkan seluruh input?",
+        "Konfirmasi Reset",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE
+    );
+
+    if (jawab == JOptionPane.YES_OPTION) {
+        txtNama.setText("");
         txtBiayaKursus.setText("");
         txtDiskon.setText("");
         cmbNamaKursus.setSelectedIndex(0);
         cmbLevel.setSelectedIndex(0);
         txtHasil.setText("");
         txtNama.requestFocus();
+    }
+
+
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void txtBiayaKursusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBiayaKursusActionPerformed
