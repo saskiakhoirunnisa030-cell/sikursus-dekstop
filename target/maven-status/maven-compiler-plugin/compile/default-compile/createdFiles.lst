@@ -1,12 +1,15 @@
 app\UjiValidasi$5.class
 view\FormPendaftaranAwal$3.class
 latihan\LatihanBiayaKursus.class
+dao\PesertaDAO.class
 app\UjiValidasi$7.class
 view\FormPendaftaranAwal$1.class
 app\DemoPolymorphism.class
 view\FormPendaftaranKursus$1.class
+config\TestDatabase.class
 app\UjiValidasi$3.class
 app\UjiValidasi$8.class
+view\FormPeserta.class
 app\UjiValidasi$2.class
 app\DemoKursus.class
 model\Instruktur.class
@@ -15,6 +18,7 @@ view\FormPendaftaranAwal.class
 app\UjiValidasi$6.class
 app\UjiValidasi$4.class
 app\UjiPraktikum7.class
+latihan\LatihanBidangDatar.class
 id\ac\uinbukittinggi\sikursus\desktop\Main.class
 model\Orang.class
 app\UjiValidasi$Aksi.class
@@ -25,5 +29,6 @@ app\UjiValidasi$9.class
 view\txtHasil.class
 model\Peserta.class
 app\UjiValidasi.class
-latihan\LuasDanKelilingBidangDatar.class
 app\UjiValidasi$1.class
+config\Database.class
+model\Admin.class
