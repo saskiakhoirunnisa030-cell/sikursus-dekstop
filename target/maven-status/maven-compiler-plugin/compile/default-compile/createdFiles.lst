@@ -6,6 +6,7 @@ app\Main.class
 view\FormPendaftaranAwal$1.class
 view\DashboardFrame.class
 view\FormPendaftaranKursus$1.class
+view\MasterPeserta.class
 app\UjiValidasi$8.class
 util\UserSeeder.class
 app\UjiValidasi$2.class
@@ -19,6 +20,7 @@ app\UjiValidasi$6.class
 view\PesertaPanel$1.class
 app\UjiPraktikum7.class
 model\Orang.class
+Report\ReportService.class
 util\PasswordUtil.class
 app\UjiValidasi$Aksi.class
 util\WindowManager$1.class
@@ -29,6 +31,7 @@ view\PesertaFrame$1.class
 view\LoginFrame.class
 view\FormPendaftaranAwal$3.class
 view\KelasFrame.class
+view\MasterPeserta$2.class
 app\UjiValidasi$7.class
 app\DemoPolymorphism.class
 config\TestDatabase.class
@@ -43,6 +46,7 @@ latihan\LatihanBidangDatar.class
 id\ac\uinbukittinggi\sikursus\desktop\Main.class
 util\UserSession.class
 util\WindowManager.class
+view\MasterPeserta$1.class
 app\DemoInheritance.class
 view\txtHasil.class
 model\Peserta.class
