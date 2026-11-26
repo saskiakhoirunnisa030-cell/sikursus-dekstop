@@ -1,138 +1,196 @@
 package view;
 
 import dao.UserDAO;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.Arrays;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import model.User;
 import util.UserSession;
 
 public class LoginFrame extends JFrame {
+    // Palet warna: Ungu elegan dengan aksen Maroon (selaras dengan DashboardFrame)
+    private static final Color COLOR_PLUM_DARK = new Color(74, 24, 92);
+    private static final Color COLOR_MAROON_ACCENT = new Color(122, 20, 56);
+    private static final Color COLOR_BG_SOFT_PURPLE = new Color(244, 239, 250);
+    private static final Color COLOR_BORDER_PURPLE = new Color(196, 178, 214);
+    private static final Color COLOR_TEXT_MUTED = new Color(102, 88, 118);
 
     private final UserDAO userDAO = new UserDAO();
 
-    private final JLabel lblTitle = new JLabel("SIKURSUS Desktop", SwingConstants.CENTER);
-    private final JLabel lblSub = new JLabel(
-            "Sistem Informasi Manajemen Kursus & Pelatihan", SwingConstants.CENTER);
-    private final JLabel lblInfo = new JLabel(
-            "Masukkan akun SIKURSUS", SwingConstants.CENTER);
-    private final JTextField txtUsername = new JTextField(18);
-    private final JPasswordField pwdPassword = new JPasswordField(18);
-    private final JButton btnLogin = new JButton("Login");
-    private final JButton btnKeluar = new JButton("Keluar");
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new LoginFrame().setVisible(true));
+    }
+
+    private JTextField txtUsername;
+    private JPasswordField pwdPassword;
+    private JButton btnLogin;
+    private JButton btnKeluar;
+    private JLabel lblInfo;
 
     public LoginFrame() {
+        initComponents();
+        setLocationRelativeTo(null);
+        getRootPane().setDefaultButton(btnLogin);
+    }
+
+    private void initComponents() {
         setTitle("Login - SIKURSUS Desktop");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        buildUI();
-        pack();
-        setResizable(false);
-        setLocationRelativeTo(null);
-        getRootPane().setDefaultButton(btnLogin); // tekan Enter = Login
+        setSize(420, 340);
+        setLayout(new BorderLayout());
+        getContentPane().setBackground(COLOR_BG_SOFT_PURPLE);
+
+        // Panel Utama dengan Padding
+        JPanel panelMain = new JPanel();
+        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        panelMain.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+        panelMain.setBackground(COLOR_BG_SOFT_PURPLE);
+
+        // 1. Judul Aplikasi
+        JLabel lblTitle = new JLabel("SIKURSUS Desktop");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblTitle.setForeground(COLOR_MAROON_ACCENT);
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(lblTitle);
+        panelMain.add(Box.createVerticalStrut(5));
+
+        // Sub-judul
+        JLabel lblSubTitle = new JLabel("Sistem Informasi Manajemen Kursus & Pelatihan");
+        lblSubTitle.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        lblSubTitle.setForeground(COLOR_TEXT_MUTED);
+        lblSubTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(lblSubTitle);
+        panelMain.add(Box.createVerticalStrut(15));
+
+        // Info Text ("Masukkan akun SIKURSUS")
+        lblInfo = new JLabel("Masukkan akun SIKURSUS");
+        lblInfo.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        lblInfo.setForeground(COLOR_PLUM_DARK);
+        lblInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(lblInfo);
+        panelMain.add(Box.createVerticalStrut(20));
+
+        // Panel Form Input (Username & Password)
+        JPanel panelForm = new JPanel(new GridBagLayout());
+        panelForm.setBackground(COLOR_BG_SOFT_PURPLE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(6, 6, 6, 6);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Username Label & Textfield
+        gbc.gridx = 0; gbc.gridy = 0;
+        JLabel lblUser = new JLabel("Username");
+        lblUser.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        lblUser.setForeground(COLOR_PLUM_DARK);
+        panelForm.add(lblUser, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 1;
+        txtUsername = new JTextField(20);
+        txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        txtUsername.setBackground(Color.WHITE);
+        txtUsername.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(COLOR_BORDER_PURPLE),
+                BorderFactory.createEmptyBorder(4, 6, 4, 6)
+        ));
+        panelForm.add(txtUsername, gbc);
+
+        // Password Label & PasswordField
+        gbc.gridx = 0; gbc.gridy = 2;
+        JLabel lblPass = new JLabel("Password");
+        lblPass.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        lblPass.setForeground(COLOR_PLUM_DARK);
+        panelForm.add(lblPass, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 3;
+        pwdPassword = new JPasswordField(20);
+        pwdPassword.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        pwdPassword.setBackground(Color.WHITE);
+        pwdPassword.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(COLOR_BORDER_PURPLE),
+                BorderFactory.createEmptyBorder(4, 6, 4, 6)
+        ));
+        panelForm.add(pwdPassword, gbc);
+
+        panelForm.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(panelForm);
+        panelMain.add(Box.createVerticalStrut(20));
+
+        // Panel Tombol (Login Ungu Plum, Keluar Maroon)
+        JPanel panelButton = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        panelButton.setBackground(COLOR_BG_SOFT_PURPLE);
+
+        btnLogin = new JButton("Login");
+        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnLogin.setBackground(COLOR_PLUM_DARK);
+        btnLogin.setForeground(Color.WHITE);
+        btnLogin.setFocusPainted(false);
+        btnLogin.setPreferredSize(new Dimension(90, 30));
+
+        btnKeluar = new JButton("Keluar");
+        btnKeluar.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnKeluar.setBackground(COLOR_MAROON_ACCENT);
+        btnKeluar.setForeground(Color.WHITE);
+        btnKeluar.setFocusPainted(false);
+        btnKeluar.setPreferredSize(new Dimension(90, 30));
+
+        panelButton.add(btnLogin);
+        panelButton.add(btnKeluar);
+        panelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(panelButton);
+
+        add(panelMain, BorderLayout.CENTER);
+
+        // Event Listener Tombol
+        btnLogin.addActionListener(this::btnLoginActionPerformed);
+        btnKeluar.addActionListener(this::btnKeluarActionPerformed);
     }
 
-    private void buildUI() {
-        Color header = new Color(173, 216, 230);
-        Color latar = new Color(230, 230, 250);
-        Color teks = new Color(65, 75, 95);
-
-        JPanel panelHeader = new JPanel(new BorderLayout());
-        panelHeader.setBackground(header);
-        panelHeader.setBorder(BorderFactory.createEmptyBorder(14, 20, 14, 20));
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 22));
-        lblTitle.setForeground(teks);
-        lblSub.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        lblSub.setForeground(teks);
-        panelHeader.add(lblTitle, BorderLayout.CENTER);
-        panelHeader.add(lblSub, BorderLayout.SOUTH);
-
-        JPanel form = new JPanel(new GridBagLayout());
-        form.setBackground(latar);
-        form.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(6, 6, 6, 6);
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-        c.gridx = 0; c.gridy = 0; c.gridwidth = 2;
-        lblInfo.setForeground(teks);
-        form.add(lblInfo, c);
-
-        c.gridwidth = 1; c.gridy = 1; c.gridx = 0;
-        form.add(new JLabel("Username"), c);
-        c.gridx = 1;
-        form.add(txtUsername, c);
-
-        c.gridy = 2; c.gridx = 0;
-        form.add(new JLabel("Password"), c);
-        c.gridx = 1;
-        form.add(pwdPassword, c);
-
-        JPanel tombol = new JPanel();
-        tombol.setBackground(latar);
-        btnLogin.setBackground(new Color(176, 224, 230));
-        btnKeluar.setBackground(new Color(255, 214, 231));
-        tombol.add(btnLogin);
-        tombol.add(btnKeluar);
-        c.gridy = 3; c.gridx = 0; c.gridwidth = 2;
-        form.add(tombol, c);
-
-        btnLogin.addActionListener(e -> btnLoginActionPerformed());
-        btnKeluar.addActionListener(e -> System.exit(0));
-
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(panelHeader, BorderLayout.NORTH);
-        getContentPane().add(form, BorderLayout.CENTER);
-    }
-
-    private void btnLoginActionPerformed() {
+    private void btnLoginActionPerformed(ActionEvent evt) {
         String username = txtUsername.getText().trim();
         char[] password = pwdPassword.getPassword();
 
         if (username.isEmpty() || password.length == 0) {
-            JOptionPane.showMessageDialog(this,
-                    "Username dan password wajib diisi.");
-            Arrays.fill(password, '\0');
+            JOptionPane.showMessageDialog(this, "Username dan password wajib diisi.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         btnLogin.setEnabled(false);
+
         try {
             User user = userDAO.authenticate(username, password);
             if (user == null) {
                 JOptionPane.showMessageDialog(this,
                         "Login gagal. Periksa username, password, atau status user.",
-                        "Login Gagal", JOptionPane.WARNING_MESSAGE);
+                        "Login Gagal",
+                        JOptionPane.WARNING_MESSAGE);
                 pwdPassword.setText("");
                 pwdPassword.requestFocus();
                 return;
             }
+
             UserSession.setCurrentUser(user);
-            new DashboardFrame().setVisible(true);
-            dispose(); // LoginFrame tidak diperlukan lagi
+            dispose();
+            SwingUtilities.invokeLater(() -> new DashboardFrame().setVisible(true));
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this,
                     "Tidak dapat mengakses database: " + ex.getMessage(),
-                    "Database Error", JOptionPane.ERROR_MESSAGE);
+                    "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
         } finally {
             Arrays.fill(password, '\0');
             btnLogin.setEnabled(true);
             setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
+    private void btnKeluarActionPerformed(ActionEvent evt) {
+        int pilihan = JOptionPane.showConfirmDialog(this, "Tutup aplikasi SIKURSUS?", "Konfirmasi Keluar", JOptionPane.YES_NO_OPTION);
+        if (pilihan == JOptionPane.YES_OPTION) {
+            System.exit(0);
         }
     }
 }
